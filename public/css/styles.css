@@ -317,6 +317,9 @@ ul.review-list {
   border-radius: .3rem;
 }
 
+#column2-content p {
+  padding-left: 1rem;
+}
 
 
 @media screen and (min-width: 700px) {
@@ -368,17 +371,12 @@ ul.review-list {
     max-width: 600px;  
   }
 
-  #column2-content p {
-  padding-left: 1rem;
-  }
-
   #detail-column2 h1, #detail-column2 h2 {
     margin: 0 0 1rem 0;
   }
-
+ 
   #detail-column2 p {
     margin: 0.5rem 0;
   }
-
   
 }
