@@ -10,8 +10,9 @@
   --primary-white: rgb(234, 242, 247);  
   --secondary-black: rgb(0, 0, 0);  
   --highlight: rgb(4, 205, 231);
+  --background: rgb(204, 203, 203);
   --decorative-font: 'Pacifico', sans-serif;
-  --body-font: Tahoma, sans-serif;
+  --body-font: Tahoma, sans-serif;  
 }
 
 header, footer, main {
@@ -216,7 +217,7 @@ h1, h2, h3, h4 {
 .caption-image > p {  
   margin: 0;
   padding-bottom: .5rem;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--background);
   width: 100%;
   text-align: center;
   color: var(--secondary-black);
@@ -304,7 +305,17 @@ ul.review-list {
   border-top: 1px solid rgba(0,0,0,0.1);
 }
 
+/* Week 5 - Vehicle Detail View */
+#inv-detail img{
+  max-width: 100%;  
+}
 
+#color {
+  background-color: var(--background);
+  padding-top: .8rem;
+  padding-bottom: .8rem;
+  border-radius: .3rem;
+}
 
 
 
@@ -337,4 +348,37 @@ ul.review-list {
     grid-row: 1/2;
   }  
 
+  /* Week 5 - Vehicle Detail View */
+  #inv-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding-left: .1rem;
+    padding-right: .1rem;
+  }
+
+  #detail-column1 img {
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  #detail-column2 {
+    padding-top: 8rem;  
+    max-width: 600px;  
+  }
+
+  #column2-content p {
+  padding-left: 1rem;
+  }
+
+  #detail-column2 h1, #detail-column2 h2 {
+    margin: 0 0 1rem 0;
+  }
+
+  #detail-column2 p {
+    margin: 0.5rem 0;
+  }
+
+  
 }

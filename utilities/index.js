@@ -57,14 +57,42 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+/* **************************************
+* Build the Vehicle Detail view HTML
+* ************************************ */
+Util.buildVehicleDetail = async function(data){
+  let detail
+  if(data.length > 0){
+    const vehicle = data[0]
+    detail = '<div id="inv-detail">'
+    detail += '<div id="detail-column1">'
+    detail += '<h1>' + vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h1>'
+    detail += '<img src="/' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + '" />'
+    detail += '</div>'
+    detail += '<div id="detail-column2">'
+    detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>'
+    detail += '<div id="column2-content">'
+    detail += '<p><strong>Price: $' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</strong></p>'
+    detail += '<p><strong>Description:</strong> ' + vehicle.inv_description + '</p>'
+    detail += '<p id="color"><strong>Color:</strong> ' + vehicle.inv_color + '</p>'
+    detail += '<p><strong>Miles:</strong> ' + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</p>'
+    detail += '</div>'
+    detail += '</div>'
+    detail += '</div>'
+  } else {
+    detail += '<p class="notice">Sorry, no matching vehicle could be found.</p>'
+  }
+  return detail
+}
+
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
-
-
 
 
 module.exports = Util
