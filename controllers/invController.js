@@ -8,9 +8,22 @@ const invCont = {}
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
+    // If invalid number, throw early
+  if (isNaN(classification_id)) {
+    return next({ status: 400, message: "Invalid classification ID." })
+  }
   const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
   let nav = await utilities.getNav()
+  if (data.length === 0) {
+    // No vehicles found for the classification
+    res.render("inventory/classification", {
+      title: "No Vehicles Found",
+      nav,
+      grid: null,
+    })
+    return
+  }
   const className = data[0].classification_name
   res.render("./inventory/classification", {
     title: className + " vehicles",
@@ -51,5 +64,16 @@ invCont.buildByInvId = async function (req, res, next) {
   })
 }
 
+/* ***************************
+ *  Intentional Error 
+ * ************************** */
+invCont.causeError = async function(req, res, next) {
+    
+    throw new Error("This is an intentional error.");
+    
+    res.render("./", {
+        title: "Intentional Error",
+    })
+}
 
   module.exports = invCont
