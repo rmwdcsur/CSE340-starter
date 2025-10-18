@@ -67,7 +67,7 @@ Util.buildVehicleDetail = async function(data){
     detail = '<div id="inv-detail">'
     detail += '<div id="detail-column1">'
     detail += '<h1>' + vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + '</h1>'
-    detail += '<img src="/' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + '" />'
+    detail += '<img src="/' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + '">'
     detail += '</div>'
     detail += '<div id="detail-column2">'
     detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>'

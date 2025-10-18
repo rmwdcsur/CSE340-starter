@@ -19,7 +19,7 @@ router.use("/", utilities.handleErrors(async (req, res, next) => {
 }));
 
 // Intentional 500 error route (Task 3)
-router.get("/error", utilities.handleErrors, invController.causeError);
+//router.get("/error", utilities.handleErrors, invController.causeError);
 
 
 module.exports = router;
