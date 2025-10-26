@@ -1,0 +1,35 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- LOGIN FORM -->
+<div class="form-container">
+  <form id="loginForm" action="/account/login" method="post">
+      <label for="account_email">Email:</label>
+      <input type="text" id="account_email" name="account_email" autocomplete="email" value="<%= locals.account_email %>" required />
+        
+      <label for="account_password">Password:</label>
+      <input type="password" id="account_password" name="account_password" required />
+    
+      <div class="form-button">
+        <button type="submit">Login</button>
+      </div>     
+    
+    <div class="no-account">
+      <span>No account? <a href="/account/register">Sign-up</a></span>      
+    </div>
+  </form>
+</div>
