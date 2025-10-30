@@ -364,6 +364,7 @@ div.error-container img {
 .form-container input, .input-box select, .input-box textarea, #classificationList {
   padding: .5rem;
   border: none;
+  width: 100%;
 }
 
 .form-container input::placeholder, .input-box select::placeholder, .input-box textarea::placeholder {
