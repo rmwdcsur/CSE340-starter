@@ -6,10 +6,10 @@ const utilities = require("../utilities/")
 
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 
 // Route to build the Vehicle Details view
-router.get("/detail/:invId", invController.buildByInvId);
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId));
 
 
 // Middleware causes an error
