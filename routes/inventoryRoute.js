@@ -3,6 +3,7 @@ const express = require("express")
 const router = new express.Router() 
 const invController = require("../controllers/invController")
 const utilities = require("../utilities/")
+const regValidate = require('../utilities/vehicle-validation')
 
 
 // Route to build inventory by classification view
@@ -11,9 +12,23 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build the Vehicle Details view
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId));
 
+// Route to Management Links
+router.get("/", utilities.handleErrors(invController.buildManagement));
+
+// Route to Add Classification view
+router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+
+// Route to process the Add Classification data
+router.post(    
+    '/add-classification',
+    regValidate.classificationRules(),
+    regValidate.checkRegData,    
+    //utilities.handleErrors(invController.registerClassification))
+    invController.registerClassification);
+
 
 // Middleware causes an error
-router.use("/", utilities.handleErrors(async (req, res, next) => {
+router.use("/test-error", utilities.handleErrors(async (req, res, next) => {
         throw new Error("Middleware intentionally throwing an exception")
     next();
 }));

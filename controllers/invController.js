@@ -65,6 +65,75 @@ invCont.buildByInvId = async function (req, res, next) {
 }
 
 /* ***************************
+ *  Build Managment view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  const nav = await utilities.getNav()  
+  // Build the HTML Links for managing
+  const links = await utilities.buildVehicleManagementLinks()
+
+  // Render the template
+  res.render("inventory/vehiclemanagement", {
+    title: "Vehicle Management",
+    nav,
+    links,
+    errors: null,
+  })
+}
+
+/* ***************************
+ *  Build Add Classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  const nav = await utilities.getNav()  
+  // Build the HTML Links for managing
+  const links = await utilities.buildVehicleManagementLinks()
+
+  // Render the template
+  res.render("inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    links,
+    errors: null,
+  })
+}
+
+
+/* ****************************************
+*  Process New Classification
+* *************************************** */
+invCont.registerClassification = async function (req, res) {
+  let nav = await utilities.getNav()
+  const { classification_name } = req.body
+  const classificationResult = await invModel.registerClassification(classification_name)
+  if (classificationResult) {
+    req.flash(
+      "success",
+      `The classification ${classification_name} was added successfully.`
+    )
+    const links = await utilities.buildVehicleManagementLinks()
+    const nav = await utilities.getNav()
+    res.status(201).render("inventory/vehiclemanagement", {
+      title: "Vehicle Management",
+      nav,
+      links,
+      errors: null,
+    })
+  } else {
+    req.flash(
+      "notice",
+      `The classification ${classification_name} was not added successfully.`
+    )
+    res.status(501).render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+
+/* ***************************
  *  Intentional Error 
  * ************************** */
 invCont.causeError = async function(req, res, next) {

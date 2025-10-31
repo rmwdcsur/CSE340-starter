@@ -1,0 +1,28 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- LOGIN FORM -->
+  <form class="form-container" id="addClassificationForm" action="/inv/add-classification" method="post">
+    <p class="hint-text">Field is required</p>
+    <hr class="hint-text">
+      <label for="classification_name">Classification Name:</label>      
+      <span class="hint-text">* Must be alphabetic characters only. No spaces allowed. </span>
+      <input type="text" id="classification_name" name="classification_name" autocomplete="newclassification" pattern="[A-Za-z]+" value="<%= locals.classification_name %>" required />      
+      <div class="form-button">
+        <button type="submit">Add Classification</button>
+      </div>
+  </form>

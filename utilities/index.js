@@ -86,6 +86,21 @@ Util.buildVehicleDetail = async function(data){
 }
 
 
+/* **************************************
+* Build the Vehicle Management Links
+* ************************************ */
+Util.buildVehicleManagementLinks = async function(req, res, next){
+  let links  
+  links = '<div id="inv-links">'
+  links += '<h1>Vehicle Management</h1>'
+  links += '<ul>'
+  links += '<li><a href="/inv/add-classification">Add New Classification</a></li>'
+  links += '<li><a href="/inv/newVehicle">Add New Vehicle</a></li>'
+  links += '</ul>'
+  links += '</div>' 
+  return links
+}
+
 
 /* ****************************************
  * Middleware For Handling Errors

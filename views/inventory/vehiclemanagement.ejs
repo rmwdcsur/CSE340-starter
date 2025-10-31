@@ -1,0 +1,19 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- MANAGEMENT LINK DISPLAY -->
+<%- links %>
