@@ -85,10 +85,8 @@ invCont.buildManagement = async function (req, res, next) {
  *  Build Add Classification view
  * ************************** */
 invCont.buildAddClassification = async function (req, res, next) {
-  const nav = await utilities.getNav()  
-  // Build the HTML Links for managing
+  const nav = await utilities.getNav()
   const links = await utilities.buildVehicleManagementLinks()
-
   // Render the template
   res.render("inventory/add-classification", {
     title: "Add Classification",
@@ -110,13 +108,11 @@ invCont.registerClassification = async function (req, res) {
     req.flash(
       "success",
       `The classification ${classification_name} was added successfully.`
-    )
-    const links = await utilities.buildVehicleManagementLinks()
+    )    
     const nav = await utilities.getNav()
-    res.status(201).render("inventory/vehiclemanagement", {
-      title: "Vehicle Management",
-      nav,
-      links,
+    res.status(201).render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,     
       errors: null,
     })
   } else {
@@ -132,6 +128,54 @@ invCont.registerClassification = async function (req, res) {
   }
 }
 
+/* ***************************
+ *  Build Add Vehicle view
+ * ************************** */
+invCont.buildAddVehicle = async function (req, res, next) {
+  const nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList()
+  // Render the template
+  res.render("inventory/add-vehicle", {
+    title: "Add Vehicle",
+    nav,
+    classificationList,
+    errors: null,
+  })  
+}
+
+/* ****************************************
+*  Process New Vehicle
+* *************************************** */
+invCont.registerVehicle = async function (req, res) {
+  let nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList()
+  let { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  inv_thumbnail = "/" + inv_thumbnail  
+  const vehicleResult = await invModel.registerVehicle(classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color)
+  if (vehicleResult) {
+    req.flash(
+      "success",
+      `The vehicle ${inv_make} ${inv_model} was added successfully.`
+    )
+    res.status(201).render("inventory/add-vehicle", {
+      title: "Add Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+    })
+  } else {
+    req.flash(
+      "notice",
+      `The vehicle ${inv_make} ${inv_model} was not added successfully.`
+    )
+    res.status(501).render("inventory/add-vehicle", {
+      title: "Add Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+    })
+  }
+}
 
 /* ***************************
  *  Intentional Error 

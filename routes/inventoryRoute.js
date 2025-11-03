@@ -18,6 +18,9 @@ router.get("/", utilities.handleErrors(invController.buildManagement));
 // Route to Add Classification view
 router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
 
+// Route to Add Vehicle view
+router.get("/add-vehicle", utilities.handleErrors(invController.buildAddVehicle));
+
 // Route to process the Add Classification data
 router.post(    
     '/add-classification',
@@ -26,6 +29,13 @@ router.post(
     //utilities.handleErrors(invController.registerClassification))
     invController.registerClassification);
 
+// Route to process the Add Vehicle data
+router.post(    
+    '/add-vehicle',
+    regValidate.vehicleRules(),
+    regValidate.checkVehicleData,
+    //utilities.handleErrors(invController.registerClassification))
+    invController.registerVehicle);
 
 // Middleware causes an error
 router.use("/test-error", utilities.handleErrors(async (req, res, next) => {

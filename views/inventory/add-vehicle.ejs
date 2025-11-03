@@ -1,0 +1,38 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- ADD VEHICLE FORM -->
+  <form class="form-container" id="addVehicleForm" action="/inv/add-vehicle" method="post">
+    <p class="hint-text">All Fields are required</p>
+    <hr class="hint-text">
+
+    <label for="classificationList">Classification:</label>
+    <%- classificationList %>
+    <label>Make<input type="text" name="inv_make" required autocomplete="off" pattern="^[A-Za-z0-9\s]{2,}$" value="<%= locals.inv_make %>"></label>
+    <label>Model<input type="text" name="inv_model" required autocomplete="off" pattern="^[A-Za-z0-9\s]{2,}$" value="<%= locals.inv_model %>"></label>
+    <label for="inv_description">Description</label>
+    <textarea id="inv_description" name="inv_description" placeholder="Enter vehicle details here..." required autocomplete="off" rows="4"><%= locals.inv_description %></textarea>
+    <label>Image Path<input type="text" name="inv_image" required autocomplete="off" value="<%= locals.inv_image || 'images/vehicles/no-image.png'%>"></label>
+    <label>Thumbnail Path<input type="text" name="inv_thumbnail" required autocomplete="off" value="<%= locals.inv_thumbnail || 'images/vehicles/no-image-tn.png'%>"></label>
+    <label>Price<input type="number" name="inv_price" required autocomplete="off" value="<%= locals.inv_price %>"></label>
+    <label>Year<input type="number" name="inv_year" required autocomplete="off" min="1900" max="2030" value="<%= locals.inv_year %>"></label>
+    <label>Miles<input type="number" name="inv_miles" required autocomplete="off" value="<%= locals.inv_miles %>"></label>
+    <label>Color<input type="text" name="inv_color" required autocomplete="off" pattern="^[A-Za-z]+$" value="<%= locals.inv_color %>"></label>    
+    <div class="form-button">
+      <button type="submit">Add Vehicle</button>
+    </div>
+  </form>
