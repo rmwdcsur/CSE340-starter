@@ -7,8 +7,8 @@ const validate = {}
 /*  **********************************
   *  Registration Data Validation Rules
   * ********************************* */
-  validate.registationRules = () => {
-    return [
+  validate.registrationRules = () => {
+    return [      
       // firstname is required and must be string
       body("account_firstname")
         .trim()
@@ -85,7 +85,7 @@ validate.loginRules = () => {
     body("account_email")
       .trim()
       .isEmail()
-      .normalizeEmail()
+      //.normalizeEmail()// left out because it removes dots in gmail addresses
       .withMessage("A valid email is required."),
     // password is required
     body("account_password")

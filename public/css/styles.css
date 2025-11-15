@@ -428,6 +428,21 @@ div.error-container img {
   width: 100%;
 }
 
+/* Week 9 */
+/* Inventory display */
+
+#inventoryDisplay tr td:nth-child(1) {
+  width: auto;
+}
+#inventoryDisplay tr td:nth-child(2) {
+  width: 75px;
+  text-align: end;
+}
+#inventoryDisplay tr td:nth-child(3) {
+  width: 75px;
+  text-align: end;
+}
+
 
 @media screen and (min-width: 700px) {
   body {

@@ -17,3 +17,18 @@
 
 <!-- MANAGEMENT LINK DISPLAY -->
 <%- links %>
+
+<!-- INVENTORY MANAGEMENT -->
+ <h2>Manage Inventory</h2>
+ <div class="form-container">
+  <p>Select a classification from the list:</p>
+  <%- classificationSelect %>
+  <table id="inventoryDisplay"></table>
+ </div>
+
+  <noscript>
+    <p><strong>JavaScript Must Be Enabled to Use this Page.</strong></p>
+  </noscript>
+
+
+  <script src="../../js/inventory.js"></script>

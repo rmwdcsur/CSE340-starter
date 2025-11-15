@@ -1,0 +1,36 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- EDIT VEHICLE FORM -->
+  <form class="form-container" id="updateForm" action="/inv/delete-vehicle/" method="post">
+    <h2>Confirm Vehicle Deletion</h2>
+    <p class="hint-text">- This action cannot be undone</p>
+    <hr class="hint-text">
+    
+    <label>Make<input type="text" name="inv_make" required autocomplete="off" pattern="^[A-Za-z0-9\s]{2,}$" value="<%- inv_make %>" readonly></label>
+    <label>Model<input type="text" name="inv_model" required autocomplete="off" pattern="^[A-Za-z0-9\s]{2,}$" value="<%= locals.inv_model %>" readonly></label>
+        
+    <label>Price<input type="number" name="inv_price" required autocomplete="off" value="<%= locals.inv_price %>" readonly></label>
+    <label>Year<input type="number" name="inv_year" required autocomplete="off" min="1900" max="2030" value="<%= locals.inv_year %>" readonly></label>
+    
+    <div class="form-button">
+      <button type="submit">Delete Vehicle</button>
+    </div>
+    <input type="hidden" name="inv_id"
+    <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+    <% } %>>
+  </form>

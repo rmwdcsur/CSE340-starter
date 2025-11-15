@@ -1,0 +1,21 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- MANAGEMENT LINK DISPLAY -->
+<h1>Account Management</h1>
+<h2>Welcome <%- locals.accountData.account_firstname %></h2>
+<h3>You are logged in!!</h3>

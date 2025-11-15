@@ -69,4 +69,31 @@ async function registerVehicle(classification_id, inv_make, inv_model, inv_descr
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, registerClassification, registerVehicle};
+/* *****************************
+*   Update vehicle
+* *************************** */
+async function updateVehicle(classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id) {  
+  try {    
+    const sql = `UPDATE public.inventory 
+      SET classification_id = $1, inv_make = $2, inv_model = $3, inv_description = $4, inv_image = $5, inv_thumbnail = $6, inv_price = $7, inv_year = $8, inv_miles = $9, inv_color = $10
+      WHERE inv_id = $11 RETURNING *`      
+    return await pool.query(sql, [classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* *****************************
+*   DELETE vehicle
+* *************************** */
+async function deleteVehicle(inv_id) {
+  try {
+    const sql = `DELETE FROM public.inventory WHERE inv_id = $1`
+    return await pool.query(sql, [inv_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, registerClassification, registerVehicle, updateVehicle, deleteVehicle};

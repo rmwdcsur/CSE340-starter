@@ -37,6 +37,28 @@ router.post(
     //utilities.handleErrors(invController.registerClassification))
     invController.registerVehicle);
 
+// Route to get inventory by classificationId and return as JSON
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+
+// Route to edit Inventory item
+router.get("/edit/:invId", utilities.handleErrors(invController.buildEditInventory));
+
+// Route to process the Edit Vehicle data
+router.post(    
+    '/update-vehicle',
+    regValidate.vehicleRules(),
+    regValidate.checkUpdateData,
+    //utilities.handleErrors(invController.updateVehicle));
+    invController.updateVehicle);
+
+// Route to delete Inventory item
+router.get("/delete/:invId", utilities.handleErrors(invController.buildDeleteInventory));
+
+// Route to process the Delete Inventory item
+router.post(    
+    '/delete-vehicle',    
+    utilities.handleErrors(invController.deleteVehicle));
+
 // Middleware causes an error
 router.use("/test-error", utilities.handleErrors(async (req, res, next) => {
         throw new Error("Middleware intentionally throwing an exception")
