@@ -1,0 +1,37 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%# messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- EDIT ACCOUNT FORM --> 
+<form class="form-container" action="/account/update/<%= accountData.account_id %>" method="post">
+  <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+  <label>First Name:
+    <input type="text" name="account_firstname" value="<%= accountData.account_firstname %>" required>
+  </label>
+
+  <label>Last Name:
+    <input type="text" name="account_lastname" value="<%= accountData.account_lastname %>" required>
+  </label>
+
+  <label>Email:
+    <input type="email" name="account_email" value="<%= accountData.account_email %>" required>
+  </label>
+
+  <button class="form-button" type="submit">Save Changes</button>
+
+  <a href="/account/change-password/<%= accountData.account_id %>">Change Password</a>
+</form>

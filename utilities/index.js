@@ -170,5 +170,22 @@ Util.checkJWTToken = (req, res, next) => {
   }
  }
 
+ /* ****************************************
+ * Middleware to check account type for inventory admin routes
+ **************************************** */
+Util.checkAccountType = (req, res, next) => {
+  // accountData is set in checkJWTToken
+  const accountData = res.locals.accountData;
+
+  if (accountData && (accountData.account_type === "Employee" || accountData.account_type === "Admin")) {
+    // Authorized
+    next();
+  } else {
+    // Not authorized
+    req.flash("notice", "You must be logged in with proper credentials to access that page.");
+    return res.redirect("/account/login");
+  }
+};
+
 
 module.exports = Util

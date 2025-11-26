@@ -2,6 +2,7 @@ const utilities = require("../utilities/")
 const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const { validationResult } = require("express-validator");
 require("dotenv").config()
 
 
@@ -135,4 +136,106 @@ async function buildAccountManagementView(req, res) {
   return; 
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagementView }
+/* ****************************************
+*  Edit account view
+* *************************************** */
+async function buildEditAccountView(req, res, next) {
+  try {
+    const account_id = req.params.account_id;
+    const nav = await utilities.getNav();
+    const accountData = await accountModel.getAccountById(account_id);
+
+    if (!accountData) {
+      req.flash("notice", "Account not found.");
+      return res.redirect("/account/edit/" + account_id);
+    }
+
+    // Render edit form with pre-filled values
+    res.render("account/edit", {
+      title: "Edit Account",
+      nav,
+      errors: null,
+      accountData
+    });
+
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ****************************************
+*  Update account information
+* *************************************** */
+async function updateAccount(req, res, next) {
+  try {
+    const account_id = req.params.account_id;
+    const { account_firstname, account_lastname,  account_email } = req.body; 
+    const updateResult = await accountModel.updateAccount(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    );  
+    if (updateResult) {
+      req.flash("success", "Account updated successfully.");
+      return res.redirect("/account/");
+    } else {
+      req.flash("notice", "Account update failed.");
+      return res.redirect("/account/edit/" + account_id);
+    }
+  } catch (error) {
+    next(error);
+  }
+}
+
+/* ****************************************
+*  Update account password
+* *************************************** */
+async function updatePassword(req, res, next) {
+ const account_id = req.params.account_id;
+
+  const { account_password, retype_account_password } = req.body;
+
+  // Express-validator errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash("notice", errors.array()[0].msg);
+    return res.redirect("/account/change-password/" + account_id);
+  }
+
+  // Match check
+  if (account_password !== retype_account_password) {
+    req.flash("notice", "Passwords do not match.");
+    return res.redirect("/account/change-password/" + account_id);
+  }
+
+    // Hash the password before storing
+  let hashedPassword
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error processing the registration.')
+    res.status(500).render("account/register", {
+    title: "Registration",
+    nav,
+    errors: null,
+    })
+  }  
+
+  const updateResult = await accountModel.updatePassword(
+    account_id,
+    hashedPassword
+  );
+
+  if (updateResult) {
+    req.flash("success", "Password updated successfully.");
+    return res.redirect("/account/");
+  } else {
+    req.flash("notice", "Password update failed.");
+    return res.redirect("/account/change-password/" + account_id);
+  }
+}
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagementView, buildEditAccountView, updateAccount, updatePassword }
