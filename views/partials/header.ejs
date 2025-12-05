@@ -4,17 +4,18 @@
     </span>
     <div id="tools">
         <% if (typeof loggedin !== 'undefined' && loggedin) { %>
-            <!--Visible when logged in -->            
-            <p class="welcome">Welcome <%= accountData.account_firstname %></p>            
-            <% if (accountData.account_type === "Employee" || accountData.account_type === "Admin") { %>
-                <a href="/inv" class="inventory">Inventory Management</a>
-            <% } else { %>
-                <a href="/account/edit/<%= accountData.account_id %>" class="account">Update Account information</a>
-            <% } %>
+            <!-- Visible when logged in -->
+            <p class="welcome">Welcome <%= accountData.account_firstname %></p>
+
+            <!-- EVERY user gets the update account link -->
+            <a href="/account/edit/<%= accountData.account_id %>" class="account">Update Account Information</a>
+
+            <!-- NO inventory link here anymore -->
+
             <a href="/account/logout" class="logout">Logout</a>
         <% } else { %>
-            <!--Visible when logged out -->            
-            <a title="Click to log in" href="/account/login" class="login">My account</a>
+            <!-- Visible when logged out -->
+            <a title="Click to log in" href="/account/login" class="login">My Account</a>
         <% } %>
     </div>
 </header>

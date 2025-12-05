@@ -19,3 +19,17 @@
 <h1>Account Management</h1>
 <h2>Welcome <%- locals.accountData.account_firstname %></h2>
 <h3>You are logged in!!</h3>
+
+<!-- MANAGEMENT LINKS -->
+<div class="account-links">
+
+  <!-- Inventory management (ONLY EMPLOYEE + ADMIN) -->
+  <% if (accountData.account_type === "Employee" || accountData.account_type === "Admin") { %>
+    <p>
+      <a href="/inv" class="inventory-link">
+        Inventory Management
+      </a>
+    </p>
+  <% } %>
+
+</div>

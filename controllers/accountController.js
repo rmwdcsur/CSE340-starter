@@ -178,6 +178,9 @@ async function updateAccount(req, res, next) {
     );  
     if (updateResult) {
       req.flash("success", "Account updated successfully.");
+      //Refresh view with updated info
+      const refreshedAccount = await accountModel.getAccountById(account_id);
+      req.session.accountData = refreshedAccount;
       return res.redirect("/account/");
     } else {
       req.flash("notice", "Account update failed.");
