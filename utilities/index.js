@@ -187,5 +187,24 @@ Util.checkAccountType = (req, res, next) => {
   }
 };
 
+/* ****************************************
+ * Middleware to check for admin routes
+ * ************************************ */
+Util.requireAdmin = (req, res, next) => {
+  const accountData = res.locals.accountData;
+  if (!accountData || !accountData.account_type) {
+    console.log(accountData.account_type);
+    req.flash("error", "You must be logged in.");
+    return res.redirect("/account/login");
+  }
+
+  if (accountData.account_type !== "Admin") {
+    req.flash("notice", "Access forbidden.");
+    return res.redirect("/account");
+  }
+
+  next();
+}
+
 
 module.exports = Util

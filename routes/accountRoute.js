@@ -73,5 +73,25 @@ router.post(
   //Route to build the account management view
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagementView));
 
+//Route to build the account management view for admin
+router.get("/manage", utilities.checkLogin, utilities.requireAdmin, utilities.handleErrors(accountController.buildAdminAccountManagementView));
+
+//Route to update PROMOTE OR DEMOTE accounts by admin
+router.post(
+  "/update-type/:account_id",
+  utilities.requireAdmin,
+  utilities.handleErrors(accountController.updateAccountType)
+);
+
+
+//Route to toggle account deletion state by admin
+router.post(
+  "/toggle-account-status/:account_id",
+  utilities.requireAdmin,
+  utilities.handleErrors(accountController.toggleDeleteAccount)
+);
+
+//Route to view account changelog by admin
+router.get("/changelog", utilities.requireAdmin, utilities.handleErrors(accountController.buildAuditView));
 
 module.exports = router;

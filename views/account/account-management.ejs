@@ -32,4 +32,18 @@
     </p>
   <% } %>
 
+  <!-- Account management (ONLY ADMIN) -->
+<% if (accountData.account_type === "Admin") { %>
+    <p>
+      <a href="/account/manage" class="account-link">
+        Account Management
+      </a>    
+    </p>
+    <p>
+      <a href="/account/changelog" class="account-link">
+        Account Change Log
+      </a>  
+    </p>
+  <% } %>
+
 </div>

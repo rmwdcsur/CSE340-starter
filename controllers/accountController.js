@@ -240,5 +240,91 @@ async function updatePassword(req, res, next) {
   }
 }
 
+/* *****************************************
+ * Process ADMIN account management
+ * *************************************** */
+async function buildAdminAccountManagementView(req, res) {
+  let nav = await utilities.getNav();
+  let accounts = await accountModel.getAllAccounts();
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagementView, buildEditAccountView, updateAccount, updatePassword }
+  res.render("account/manage", {
+    title: "Account Management",
+    nav,
+    accounts,
+    errors: null,
+  });
+  return; 
+}
+
+/* *****************************
+* Update an account type
+***************************** */
+async function updateAccountType(req, res) {
+  const changedAccountId = req.params.account_id;
+  const newType = req.body.account_type;
+  const accountData = res.locals.accountData;
+  const adminId = accountData.account_id;
+
+  try {
+    await accountModel.updateAccountType(changedAccountId, newType, adminId);
+
+    req.flash("success", "Account type updated successfully.");
+    res.redirect("/account/manage");
+  } catch (err) {
+    console.error(err);
+    req.flash("notice", err.message || "Error updating account type.");
+    res.redirect("/account/manage");
+  }
+}
+
+/* *****************************
+* Toggle account deleted state
+***************************** */
+async function toggleDeleteAccount(req, res) {
+  const accountId = req.params.account_id;
+  const currentState = parseInt(req.body.current_state);
+  const newState = currentState === 1 ? 0 : 1;
+  const accountData = res.locals.accountData;
+  const adminId = accountData.account_id;
+
+  try {
+    await accountModel.toggleAccountDeleted(accountId, newState, adminId);
+    if (newState === 1) {
+      req.flash("success", "Account has been disabled.");
+    } else {
+      req.flash("success", "Account has been restored.");
+    }    
+    res.redirect("/account/manage");
+
+  } catch (error) {
+    console.error("Controller error:", error);
+    req.flash("notice", "Could not disable or restore the account.");
+    res.redirect("/account/manage");
+  }
+}
+
+/* *****************************************
+ * Process ADMIN account management
+ * *************************************** */
+async function buildAuditView(req, res) {
+  let nav = await utilities.getNav();
+  let records = await accountModel.getRecentAuditRecords();
+  let formattedRecords = records.map(r => ({
+  ...r,
+  formatted_date: new Date(r.date).toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  })
+}));
+
+  res.render("account/changelog", {
+    title: "Account Management Changes",
+    nav,
+    formattedRecords,
+    errors: null,
+  });
+  return; 
+}
+
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagementView, buildEditAccountView, updateAccount, updatePassword, buildAdminAccountManagementView, updateAccountType, toggleDeleteAccount, buildAuditView };

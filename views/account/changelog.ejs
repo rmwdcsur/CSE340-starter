@@ -1,0 +1,48 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<h1>Recent Account Changes</h1>
+
+<!-- Display all audit records in a table -->
+<div class="account-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Old Value</th>
+        <th>New Value</th>
+        <th>User</th>
+        <th>Date (UTC)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% formattedRecords.forEach(record => { %>
+        <tr>
+          <td><%= record.account %></td>
+          <td><%= record.old_value %></td>
+          <td><%= record.new_value %></td>
+          <td><%= record.user %></td>
+          <td><%= record.formatted_date %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+
+
+
+</div>

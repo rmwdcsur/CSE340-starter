@@ -1,0 +1,67 @@
+<!-- CONTENT HEADING -->
+<% if (title) { %>
+
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- MESSAGE BLOCK -->
+<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<h1>Account Management</h1>
+
+<!-- Display all accounts in a table -->
+<div class="account-table">
+  <table>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Account Type</th>
+        <th>Active</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% accounts.forEach(account => { %>
+        <tr>
+          <td><%= account.account_firstname %></td>
+          <td><%= account.account_lastname %></td>
+          <td><%= account.account_email %></td>
+          <td>
+            <form action="/account/update-type/<%= account.account_id %>" method="POST">
+                <select name="account_type" onchange="this.form.submit()" class="type-select">
+                <option value="Client" <%= account.account_type === 'Client' ? 'selected' : '' %>>Client</option>
+                <option value="Employee" <%= account.account_type === 'Employee' ? 'selected' : '' %>>Employee</option>
+                <option value="Admin" <%= account.account_type === 'Admin' ? 'selected' : '' %>>Admin</option>
+                </select>
+            </form>
+          </td>
+            <td>
+            <form action="/account/toggle-account-status/<%= account.account_id %>" method="POST">
+                <input type="hidden" name="current_state" value="<%= account.deleted %>">
+
+                <label class="switch">
+                <input type="checkbox"
+                        onchange="this.form.submit()"
+                        <%= account.deleted == 0 ? 'checked' : '' %>>
+                <span class="slider"></span>
+                </label>
+            </form>
+            </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+
+
+
+</div>
